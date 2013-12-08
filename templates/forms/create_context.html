@@ -1,0 +1,9 @@
+{% extends 'layouts/form.html' %}
+{% block title %}Create Card{% endblock %}
+{% block content %}
+<form method="post" class="form">
+    <h3 class="form-heading">Create New Context<a href="{{ url_for('getProfile') }}" title="Back to your page"><i class="icon icon-home pull-right"></i></a></h3>
+    {{ form.name(class_ = 'form-control first-input', placeholder = form.title.label.text, required = true, autofocus = true) }}
+    <input type="submit" value="Create" class="btn btn-primary btn-lg btn-block" action = "{{ url_for('addContext') }}">
+</form>
+{% endblock %}

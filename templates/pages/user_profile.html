@@ -1,0 +1,53 @@
+{% extends 'layouts/main.html' %}
+{% block title %} {{ user.name }} {% endblock %}
+{% block content %}
+<style>
+    .cardBox {
+        margin-left: 20px;
+        margin-right: 20px;
+        border: 2px solid;
+        border-radius: 10px;
+    }
+    .cardRow {
+        margin-top : 10px;
+        margin-bottom: 10px;
+    }
+</style>
+<div class='row'>
+    <h1> {{ user.name }} </h1>
+    <p class="float-right"> Get to know me as a
+        <button type="button" class="btn btn-default dropdown-toggle float-right" data-toggle="dropdown">
+            ...
+            <span class="caret"></span>
+        </button>
+    <ul class="dropdown-menu">
+        {% for context in contexts %}
+        <li><a href="{{ url_for('createBond') }}">{{ context.name }}</a></li>
+        {% endfor %}
+    </ul>
+    </p>
+</div>
+{% for lens in lenses %}
+<div class="section">
+    <h2>{{ lens['title'] }}</h2>
+    {% for row in lens.rows %}
+    <div class='row cardRow'>
+        {% for card in row %}
+        <div class='col-md-4'>
+            <div class='cardBox'>
+                <h3>{{ card.title }}</h3>
+                {% if card.image %}
+                <img class="img-rounded" src="{{ card.image.url }}">
+                {% endif %}
+                {% if card.text %}
+                <p>{{ card.text }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endfor %}
+
+{% endblock %}

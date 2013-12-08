@@ -1,0 +1,29 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="section">
+<div class="jumbotron">
+    <h1>inContext <small>Online profiles built for <em>you.</em></small></h1>
+    <p>Social media sites give you a template of who they think you are, ask you to fill it in, and then sell your
+    information off to advertisers.  inContext lets you define your profile on your own terms, and gives you control
+    over who sees your information.  With the power of contexts, the way people see you is up to you.</p>
+    <p><a class="btn btn-primary btn-lg" role= "button">Make your page</a></p>
+</div>
+</div>
+<div class="section">
+    <h1>How does it work?</h1>
+    <p>Your page is made of <em>lenses</em>.  You name each lens, and decide what aspect of your identity it should
+        reflect.  Whether it's your education, music interests, or photos of you with your family, each lens is a
+        different view of your identity.</p>
+    <p>When you make a lens, it's just an empty page.  To flesh it out, add some <em>cards</em>, the most basic unit
+    of the page.  You give them a title and they can hold an image, some text, or both.  Cards let you describe yourself
+    however you'd like.</p>
+    <p>Once you've made your lenses and added some cards, it's time to define your <em>contexts</em>.  Contexts are how
+    people get to know you.  Instead of asking to be your friend, people ask to connect with you in one of your contexts.
+    Friend, co-worker, band-mate, potential client -- your contexts are up to you.  A context defines which of your lenses
+    somebody who knows you in that context can see.  If you want one of your lenses to only show up for close friends, or you
+    want to have a simple context just for acquaintances, you can do it.</p>
+    <p><a class="btn btn-primary btn-lg" role= "button" href="{{ url_for('register') }}">Try it now</a></p>
+</div>
+
+{% endblock %}
