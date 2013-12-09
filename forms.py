@@ -18,7 +18,7 @@ class LoginForm(Form):
 class ForgotForm(Form):
     email       = TextField('Email', validators = [Required(), Length(min=6, max=40)])
 
-class CreateCardForm(Form):
+class CreateDetailForm(Form):
     title = TextField('Title', validators = [Required(), Length(min=1, max=30)])
     lens = SelectField('Lens', validators = [Required()])
     text = TextField('Text', validators = [Length(min = 6, max = 420)])

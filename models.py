@@ -22,10 +22,10 @@ class User(Base):
     email = db.Column(db.String(120), unique=True)
     url = db.Column(db.String(30), unique=True)
     password = db.Column(db.String(30))
-    bond = db.relationship("Bond")
+    connection = db.relationship("Connection")
     context = db.relationship("Context")
     lens = db.relationship("Lens")
-    card = db.relationship("Card")
+    detail = db.relationship("Detail")
 
     def __init__(self, name, password, url):
         self.name = name
@@ -50,16 +50,16 @@ class Lens(Base):
     lens_id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
     title = db.Column(db.String(120))
-    card = db.relationship("Card")    
+    detail = db.relationship("details")    
 
     def __init__(self, user_id, title):
         self.user_id = user_id
         self.title = title
 
-class Card(Base):
-    __tablename__ = 'cards'
+class Detail(Base):
+    __tablename__ = 'details'
 
-    card_id = db.Column(db.Integer, primary_key = True)
+    detail_id = db.Column(db.Integer, primary_key = True)
     lens_id = db.Column(db.Integer, db.ForeignKey('lenses.lens_id'), nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
     title = db.Column(db.String(120))
@@ -83,10 +83,10 @@ class  Context(Base):
         self.user_id = user_id
         self.name = name
 
-class Bond(Base):
-    __tablename__ = 'bonds'
+class Connection(Base):
+    __tablename__ = 'connections'
 
-    bond_id = db.Column(db.Integer, primary_key = True)
+    connnection_id = db.Column(db.Integer, primary_key = True)
     user1_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
     user1_context = db.Column(db.Integer, db.ForeignKey('contexts.context_id'), nullable = False)
     user2_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
