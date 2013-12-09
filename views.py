@@ -5,11 +5,28 @@ from flask import Flask, request, session, g, redirect, url_for,\
      abort, render_template, flash, make_response
 from app import app, db
 
+def login_required(test):
+    @wraps(test)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return test(*args, **kwargs)
+        else:
+            flash('You need to login first.')
+            return redirect(url_for('login'))
+    return wrap
+
+def getVisibleAspects(pageUser, viewUser):
+    if pageUser == viewUser:
+        return pageUser.aspect
+    else:
+        connectionContext = Connection.query.filter(Connection.user1_id == viewUser.user_id,
+                                            Connection.user2_id == pageUser.user_id).user2_context
+        return connectionContext.aspect
 
 @app.route('/user/<profileURL>')
 def getProfile(profileURL):
     user = User.query.filter(User.url == profileURL).one()
-    user_aspects = user.aspect
+    user_aspects = getVisibleAspects(user, flask.ext.login.current_user)
     aspects = []
     for each in user_aspects:
         aspect = {'title': each.title}
@@ -79,6 +96,24 @@ def addContext(profileURL):
     else:
         return render_template('create_context.html', form=form)
 
+
+@app.route('/user/<profileURL>/addConnection')
+def addConnection(profileURL):
+    form = CreateConnectionForm(request.form)
+    otherUser = User.query.filter(User.url == profileURL)
+    thisUser = flask.ext.login.current_user
+    form.theirContext.choices = [(context.id, context.name) for context in otherUser.context]
+    form.yourContext.choices = [(context.id, context.name) for context in thisUser.context]
+    if form.validate_on_submit():
+        firstWayConnection = Connection(thisUser.user_id, int(request.form['yourContext']),
+                                                            otherUser.user_id, int(request.form['theirContext']))
+        secondWayConnection = Connection(otherUser.user_id, int(request.form['theirContext']),
+                                                            thisUser.user_id, int(request.form['yourContext']))
+        
+        db_session.add(firstWayConnection)
+        db_session.add(secondWayConnection)
+        db_session.commit()
+        return redirect(url_for('getProfile', profileURL = profileURL))
 '''
 METHODS TO REMOVE OBJECTS (still not implemented in forms or html)
 '''
@@ -131,8 +166,7 @@ def remove_aspect_from_context(profileURL):
     user = User.query.filter(User.url == profileURL).one()
     form = RemoveAspectContextForm(request.form)
     form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]
-    form.context.choices = [(context.context_id, context.name) for context in user.context]
-        
+    form.context.choices = [(context.context_id, context.name) for context in user.context]    
     if form.validate_on_submit():
         context = Context.get(int(request.form['Context']))
         aspect = Aspect.get(int(request.form['Aspect']))
@@ -143,6 +177,8 @@ def remove_aspect_from_context(profileURL):
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
         return render_template('remove_aspect_from_context.html', form=form)
+
+
 # Controllers & Basics
 @app.route('/')
 def home():
@@ -155,6 +191,12 @@ def about():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
+    if form.validate_on_submit():
+        user = User.query.get(User.name == request.form['name']).one()
+        if user.password == request.form['password']:
+            login_user(user)
+            flash("Logged in successfully.")
+            return redirect(url_for('getProfile', profileURL = user.url))
     return render_template('forms/login.html', form = form)
 
 @app.route('/register', methods = ['GET', 'POST'])
@@ -165,7 +207,7 @@ def register():
                                     request.form['password'], request.form['url'])
         db_session.add(newUser)
         db_session.commit()
-        return redirect(url_for('getProfile'))
+        return redirect(url_for('home'))
     return render_template('forms/register.html', form = form)
 
 @app.route('/forgot')

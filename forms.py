@@ -45,3 +45,7 @@ class AddAspectContextForm(Form):
 class RemoveAspectContextForm(Form):
     aspect = SelectField('Aspect', validators = [Required()])
     context = SelectField('Context', validators = [Required()])
+
+class CreateConnectionForm(Form):
+    yourContext = SelectField("Your Context", validators = [Required()])
+    theirContext = SelectField("Their Context", validators = [Required()])

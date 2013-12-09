@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1012e89-349e-495a-8b6f-8b0590ae0f66" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../LICENSE" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../README.md" afterPath="$PROJECT_DIR$/../../README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add_lens_to_context.html" afterPath="$PROJECT_DIR$/add_lens_to_context.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_card.html" afterPath="$PROJECT_DIR$/create_card.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_context.html" afterPath="$PROJECT_DIR$/create_context.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_lens.html" afterPath="$PROJECT_DIR$/create_lens.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/remove_lens_from_context.html" afterPath="$PROJECT_DIR$/remove_lens_from_context.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/create_connection.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../app.py" afterPath="$PROJECT_DIR$/../../app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../forms.py" afterPath="$PROJECT_DIR$/../../forms.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../views.py" afterPath="$PROJECT_DIR$/../../views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="forms.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -18,6 +16,7 @@
     <file path="/create_context.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386542836928" ignored="false" />
     <file path="/create_lens.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386542842765" ignored="false" />
     <file path="/remove_lens_from_context.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386542860560" ignored="false" />
+    <file path="/create_connection.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386564336633" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,10 +45,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="remove_lens_from_context.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="remove_lens_from_context.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/remove_lens_from_context.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="24" selection-start="58" selection-end="58" vertical-scroll-proportion="0.019495413">
+            <state line="1" column="24" selection-start="58" selection-end="58" vertical-scroll-proportion="-0.65384614">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="create_connection.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/create_connection.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="116" selection-start="674" selection-end="674" vertical-scroll-proportion="0.14547677">
               <folding />
             </state>
           </provider>
@@ -64,19 +72,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="create_card.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/create_card.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="30" selection-start="64" selection-end="64" vertical-scroll-proportion="-0.65384614">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="create_context.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_context.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="31" selection-start="65" selection-end="65" vertical-scroll-proportion="-0.65384614">
+            <state line="1" column="31" selection-start="0" selection-end="569" vertical-scroll-proportion="-0.65384614">
               <folding />
             </state>
           </provider>
@@ -85,7 +84,7 @@
       <file leaf-file-name="create_lens.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_lens.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="28" selection-start="62" selection-end="62" vertical-scroll-proportion="-0.65384614">
+            <state line="1" column="28" selection-start="0" selection-end="665" vertical-scroll-proportion="-0.65384614">
               <folding />
             </state>
           </provider>
@@ -114,14 +113,13 @@
         <option value="$PROJECT_DIR$/create_context.html" />
         <option value="$PROJECT_DIR$/create_lens.html" />
         <option value="$PROJECT_DIR$/remove_lens_from_context.html" />
+        <option value="$PROJECT_DIR$/create_connection.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1098" />
+    <option name="width" value="960" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -168,6 +166,7 @@
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/create_lens.html" />
     <property name="FullScreen" value="false" />
+    <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
   </component>
@@ -201,13 +200,13 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1098" extended-state="6" />
+    <frame x="0" y="0" width="960" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24986821" sideWeight="0.67099565" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.515778" sideWeight="0.67099565" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32900432" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -297,27 +296,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/create_card.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="30" selection-start="64" selection-end="64" vertical-scroll-proportion="-0.65384614">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/create_context.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="31" selection-start="65" selection-end="65" vertical-scroll-proportion="-0.65384614">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/create_lens.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="28" selection-start="62" selection-end="62" vertical-scroll-proportion="-0.65384614">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/add_lens_to_context.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="30" selection-start="462" selection-end="462" vertical-scroll-proportion="-3.9230769">
@@ -327,7 +305,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/remove_lens_from_context.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="24" selection-start="58" selection-end="58" vertical-scroll-proportion="0.019495413">
+        <state line="1" column="24" selection-start="58" selection-end="58" vertical-scroll-proportion="-0.65384614">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_context.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="31" selection-start="0" selection-end="569" vertical-scroll-proportion="-0.65384614">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_lens.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="28" selection-start="0" selection-end="665" vertical-scroll-proportion="-0.65384614">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_connection.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="116" selection-start="674" selection-end="674" vertical-scroll-proportion="0.14547677">
           <folding />
         </state>
       </provider>
