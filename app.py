@@ -7,9 +7,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 import logging
 from logging import Formatter, FileHandler
-from forms import *
-from models import *
-import views
+
+
 
 #----------------------------------------------------------------------------#
 # App Config.
@@ -20,6 +19,11 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+from models import db_session
+from forms import *
+from models import *
+from views import *
 
 # Automatically tear down SQLAlchemy.
 @app.teardown_request

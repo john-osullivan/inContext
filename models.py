@@ -1,8 +1,7 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String
-from app import db
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 
 engine = create_engine('sqlite:///database.db', echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
@@ -11,21 +10,22 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 Base = declarative_base()
 Base.query = db_session.query_property()
 
+
 # Set your classes here.
 
 
 class User(Base):
     __tablename__ = 'users'
 
-    user_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True)
-    email = db.Column(db.String(120), unique=True)
-    url = db.Column(db.String(30), unique=True)
-    password = db.Column(db.String(30))
-    connection = db.relationship("Connection")
-    context = db.relationship("Context")
-    aspect = db.relationship("Aspect")
-    detail = db.relationship("Detail")
+    user_id =  Column( Integer, primary_key=True)
+    name =  Column( String(120), unique=True)
+    email =  Column( String(120), unique=True)
+    url =  Column( String(30), unique=True)
+    password =  Column( String(30))
+    connection =  relationship("connections")
+    context =  relationship("contexts")
+    aspect =  relationship("aspects")
+    detail =  relationship("details")
 
     def __init__(self, name, email, password, url):
         self.name = name
@@ -48,10 +48,10 @@ class User(Base):
 class Aspect(Base):
     __tablename__ = 'aspects'
 
-    aspect_id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
-    title = db.Column(db.String(120))
-    detail = db.relationship("details")    
+    aspect_id =  Column( Integer, primary_key = True)
+    user_id =  Column( Integer,  ForeignKey('users.user_id'), nullable = False)
+    title =  Column( String(120))
+    detail =  relationship("details")    
 
     def __init__(self, user_id, title):
         self.user_id = user_id
@@ -60,12 +60,12 @@ class Aspect(Base):
 class Detail(Base):
     __tablename__ = 'details'
 
-    detail_id = db.Column(db.Integer, primary_key = True)
-    aspect_id = db.Column(db.Integer, db.ForeignKey('aspects.aspect_id'), nullable = False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
-    title = db.Column(db.String(120))
-    text = db.Column(db.String(2000))
-    image = db.relationship("Image")
+    detail_id =  Column( Integer, primary_key = True)
+    aspect_id =  Column( Integer,  ForeignKey('aspects.aspect_id'), nullable = False)
+    user_id =  Column( Integer,  ForeignKey('users.user_id'), nullable = False)
+    title =  Column( String(120))
+    text =  Column( String(2000))
+    image =  relationship("images")
 
     def __init__(self, aspect_id, user_id, title):
         self.aspect_id = aspect_id
@@ -75,10 +75,10 @@ class Detail(Base):
 class  Context(Base):
     __tablename__ = 'contexts'
 
-    context_id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
-    name = db.Column(db.String(30), nullable = False)
-    aspect = db.relationship('aspect')
+    context_id =  Column( Integer, primary_key = True)
+    user_id =  Column( Integer,  ForeignKey('users.user_id'), nullable = False)
+    name =  Column( String(30), nullable = False)
+    aspect =  relationship('aspects')
 
     def __init__(self, user_id, name):
         self.user_id = user_id
@@ -87,12 +87,12 @@ class  Context(Base):
 class Connection(Base):
     __tablename__ = 'connections'
 
-    connection_id = db.Column(db.Integer, primary_key = True)
-    user1_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
-    user1_context = db.Column(db.Integer, db.ForeignKey('contexts.context_id'), nullable = False)
-    user2_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
-    user2_context = db.Column(db.Integer, db.ForeignKey('contexts.context_id'), nullable = False)
-    accepted = db.Column(db.Boolean)
+    connection_id =  Column( Integer, primary_key = True)
+    user1_id =  Column( Integer,  ForeignKey('users.user_id'), nullable = False)
+    user1_context =  Column( Integer,  ForeignKey('contexts.context_id'), nullable = False)
+    user2_id =  Column( Integer,  ForeignKey('users.user_id'), nullable = False)
+    user2_context =  Column( Integer,  ForeignKey('contexts.context_id'), nullable = False)
+    accepted =  Column( Boolean)
 
     def __init__(self, user1_id, user1_context, user2_id, user2_context):
         self.user1_id = user1_id
@@ -104,8 +104,9 @@ class Connection(Base):
 class Image(Base):
     __tablename__ = 'images'
 
-    image_id = db.Column(db.Integer, primary_key = True)
-    url = db.Column(db.String(30), nullable = False)
+    image_id =  Column( Integer, primary_key = True)
+    detail_id = Column(Integer, ForeignKey('details.detail_id'))
+    url =  Column( String(30), nullable = False)
 
     def __init__(self, url):
         this.url = url

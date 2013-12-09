@@ -83,7 +83,7 @@ def addAspect(profileURL):
     else:
         return render_template('create_aspect.html', form=form)
 
-@app.route('user/<profileURL>/addContext', methods=['GET','POST'])
+@app.route('/user/<profileURL>/addContext', methods=['GET','POST'])
 def addContext(profileURL):
     form = CreateContextForm(request.form)
     user = User.query.filter(User.url == profileURL).one()
@@ -144,7 +144,7 @@ def removeContext(profileURL):
 '''
 METHODS TO CHANGE CONTENTS OF CONTEXT
 '''
-@app.route('user/<profileURL>/add_aspect_to_context', methods=['GET','POST'])
+@app.route('/user/<profileURL>/add_aspect_to_context', methods=['GET','POST'])
 def add_aspect_to_context(profileURL):
     user = User.query.filter(User.url == profileURL).one()
     form = AddAspectContextForm(request.form)
@@ -161,7 +161,7 @@ def add_aspect_to_context(profileURL):
     else:
         return render_template('add_aspect_to_context.html', form=form)
 
-@app.route('user/<profileURL>/remove_aspect_from_context', methods=['GET','POST'])
+@app.route('/user/<profileURL>/remove_aspect_from_context', methods=['GET','POST'])
 def remove_aspect_from_context(profileURL):
     user = User.query.filter(User.url == profileURL).one()
     form = RemoveAspectContextForm(request.form)
@@ -197,7 +197,12 @@ def login():
             login_user(user)
             flash("Logged in successfully.")
             return redirect(url_for('getProfile', profileURL = user.url))
-    return render_template('forms/login.html', form = form)
+        else:
+            flash("Incorrect username or password!")
+            return redirect(url_for('getProfile', profileURL = user.url))
+    else:
+        flash("Not a valid input.")
+        return render_template('forms/login.html', form = form)
 
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -208,6 +213,8 @@ def register():
         db_session.add(newUser)
         db_session.commit()
         return redirect(url_for('home'))
+    elif request.method == 'POST':
+        flash("Not a valid input.")
     return render_template('forms/register.html', form = form)
 
 @app.route('/forgot')

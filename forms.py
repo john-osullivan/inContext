@@ -1,8 +1,8 @@
 from flask.ext.wtf import Form
 from models import Base, User
 
-from wtforms import TextField, PasswordField, validators
-from wtforms.validators import Required, EqualTo, Length
+from wtforms import TextField, PasswordField, validators, SelectField, SelectMultipleField
+from wtforms.validators import Required, EqualTo, Length, URL
 
 # Set your classes here.
 
@@ -10,12 +10,15 @@ class RegisterForm(Form):
     name        = TextField('Username', validators = [Required(), Length(min=6, max=25)])
     email       = TextField('Email', validators = [Required(), Length(min=6, max=40)])
     password    = PasswordField('Password', validators = [Required(), Length(min=6, max=40)])
-    url = TextField('URL', validators = [Required(), Length(min=)])
+    url = TextField('URL', validators = [Required(), Length(min=6, max=25)])
     confirm     = PasswordField('Repeat Password', [Required(), EqualTo('password', message='Passwords must match')])
 
     def validate_url(form, field):
+        print "-----------------------------------------"
+        print "-----------------------------------------"
+        print field.data
         url_check = User.query.filter(User.url == field.data).first()
-        if url_check:
+        if url_check != None:
             raise ValidationError("URL suffix must be unique!")
 
 class LoginForm(Form):
@@ -29,7 +32,7 @@ class CreateDetailForm(Form):
     title = TextField('Title', validators = [Required(), Length(min=1, max=30)])
     aspect = SelectField('Aspect', validators = [Required()])
     text = TextField('Text', validators = [Length(min = 6, max = 420)])
-    image = Text('Image (URL)', validators = [Length(min=6, max=60), URL()])
+    image = TextField('Image (URL)', validators = [Length(min=6, max=60), URL()])
 
 class CreateAspectForm(Form):
     title = TextField('Title', validators = [Required(), Length(min=1, max=30)])
