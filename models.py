@@ -24,11 +24,12 @@ class User(Base):
     password = db.Column(db.String(30))
     connection = db.relationship("Connection")
     context = db.relationship("Context")
-    lens = db.relationship("Lens")
+    aspect = db.relationship("Aspect")
     detail = db.relationship("Detail")
 
-    def __init__(self, name, password, url):
+    def __init__(self, name, email, password, url):
         self.name = name
+        self.email = email
         self.password = password
         self.url = url
 
@@ -44,10 +45,10 @@ class User(Base):
     def get_id():
         return self.user_id
 
-class Lens(Base):
-    __tablename__ = 'lenses'
+class Aspect(Base):
+    __tablename__ = 'aspects'
 
-    lens_id = db.Column(db.Integer, primary_key = True)
+    aspect_id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
     title = db.Column(db.String(120))
     detail = db.relationship("details")    
@@ -60,14 +61,14 @@ class Detail(Base):
     __tablename__ = 'details'
 
     detail_id = db.Column(db.Integer, primary_key = True)
-    lens_id = db.Column(db.Integer, db.ForeignKey('lenses.lens_id'), nullable = False)
+    aspect_id = db.Column(db.Integer, db.ForeignKey('aspects.aspect_id'), nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
     title = db.Column(db.String(120))
     text = db.Column(db.String(2000))
     image = db.relationship("Image")
 
-    def __init__(self, lens_id, user_id, title):
-        self.lens_id = lens_id
+    def __init__(self, aspect_id, user_id, title):
+        self.aspect_id = aspect_id
         self.user_id = user_id
         self.title = title
 
@@ -77,7 +78,7 @@ class  Context(Base):
     context_id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
     name = db.Column(db.String(30), nullable = False)
-    lens = db.relationship('lens')
+    aspect = db.relationship('aspect')
 
     def __init__(self, user_id, name):
         self.user_id = user_id
@@ -86,7 +87,7 @@ class  Context(Base):
 class Connection(Base):
     __tablename__ = 'connections'
 
-    connnection_id = db.Column(db.Integer, primary_key = True)
+    connection_id = db.Column(db.Integer, primary_key = True)
     user1_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
     user1_context = db.Column(db.Integer, db.ForeignKey('contexts.context_id'), nullable = False)
     user2_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)

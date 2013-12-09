@@ -5,19 +5,6 @@ from flask import Flask, request, session, g, redirect, url_for,\
      abort, render_template, flash, make_response
 from app import app, db
 
-@app.route('/')
-def home():
-    return render_template('pages/home.html')
-
-@app.route('/about')
-def about():
-    return render_template('pages/about.html')
-
-@app.route('/login')
-def login():
-    form = LoginForm(request.form)
-    return render_template('forms/login.html', form = form)
-
 
 @app.route('/user/<profileURL>')
 def getProfile(profileURL):
@@ -26,7 +13,7 @@ def getProfile(profileURL):
     aspects = []
     for each in user_aspects:
         aspect = {'title': each.title}
-        lens[rows] = []
+        aspect[rows] = []
         aspect_cards = each.card
         numRows = math.ceil(len(aspect_cards) / 3)
         for i in range(numRows):
@@ -44,57 +31,56 @@ METHODS TO ADD NEW OBJECTS
 @app.route('/user/<profileURL>/addDetail', methods=['GET','POST'])
 def addDetail(profileURL):
     user = User.query.filter(User.url == profileURL).one()
-    if request.method == 'GET':
-        form = CreateDetailForm(request.form)
-        form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]
-        # Populate select listing here
-        return render_template('create_detail.html', form=form)
-    elif request.method == "POST":      
+    form = CreateDetailForm(request.form)
+    form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]    
+    if form.validate_on_submit():
         aspect = Aspect.query.filter(Aspect.user_id == user.user_id, Aspect.aspect == request.form['aspect']).one()
-        newDetail = Detail(lens.lens_id, user.user_id, request.form['title'])
+        newDetail = Detail(aspect.aspect_id, user.user_id, request.form['title'])
         if request.form['image'] != '':
             imageURL = request.form['image']
             newImage = Image(imageURL)
             newDetail.image.append(newImage)
         newDetail.text = request.form['text']
         user.card.append(newDetail)
-        lens.card.append(newDetail)
+        aspect.card.append(newDetail)
         db_session.add(newDetail)
         db_session.commit()
         return redirect(url_for('getProfile', profileURL = profileURL))
+    else:
+        return render_template('create_detail.html', form=form)
 
-@app.route('/user/<profileURL>/addLens', methods=['GET','POST'])
-def addLens(profileURL):
+@app.route('/user/<profileURL>/addAspect', methods=['GET','POST'])
+def addAspect(profileURL):
     user = User.query.filter(User.url == profileURL).one()
-    if request.method == 'GET':
-        form = CreateLensForm(request.form)
-        form.context.choices = [(context.context_id, context.name) for context in user.context]
-        return render_template('create_lens.html', form=form)
-    elif request.method == 'POST':
-        newLens = Lens(user.user_id, request.form['lensTitle'])
+    form = CreateAspectForm(request.form)
+    form.context.choices = [(context.context_id, context.name) for context in user.context]
+    if form.validate_on_submit():
+        newAspect = Aspect(user.user_id, request.form['aspectTitle'])
         if request.form['contexts'] != []:
             for contextID in request.form['contexts']:
-                Context.get(int(contextID)).lens.append(newLens)
-        user.lens.append(newLens)
-        db_session.add(newLens)
+                Context.get(int(contextID)).aspect.append(newAspect)
+        user.aspect.append(newAspect)
+        db_session.add(newAspect)
         db_session.commit()
         return redirect(url_for('getProfile', profileURL = profileURL))
+    else:
+        return render_template('create_aspect.html', form=form)
 
 @app.route('user/<profileURL>/addContext', methods=['GET','POST'])
 def addContext(profileURL):
-    if request.method == 'GET':
-        form = CreateContextForm(request.form)
-        return render_template('create_context.html', form=form)
-    elif request.method == 'POST':
-        user = User.query.filter(User.url == profileURL).one()
+    form = CreateContextForm(request.form)
+    user = User.query.filter(User.url == profileURL).one()
+    if form.validate_on_submit():
         newContext = Context(user.user_id, request.form['name'])
         user.context.append(newContext)
         db_session.add(newContext)
         db_session.commit()
         return redirect(url_for('getProfile', profileURL = profileURL))
+    else:
+        return render_template('create_context.html', form=form)
 
 '''
-METHODS TO REMOVE OBJECTS
+METHODS TO REMOVE OBJECTS (still not implemented in forms or html)
 '''
 @app.route('/user/<profileURL>/removeDetail', methods=['GET','POST'])
 def removeDetail(profileURL):
@@ -104,11 +90,11 @@ def removeDetail(profileURL):
     db_session.commit()
     return redirect(url_for('getProfile', profileURL = profileURL))
 
-@app.route('/user/<profileURL>/removeLens', methods=['GET','POST'])
-def removeLens(profileURL):
+@app.route('/user/<profileURL>/removeAspect', methods=['GET','POST'])
+def removeAspect(profileURL):
     user = User.query.filter(User.url == profileURL).one()
-    lens = Lens.query.filter(Lens.lens_id == int(request.form['lensID']))
-    db_session.delete(lens)
+    aspect = Aspect.query.filter(Aspect.aspect_id == int(request.form['aspectID']))
+    db_session.delete(aspect)
     db_session.commit()
     return redirect(url_for('getProfile', profileURL = profileURL))
 
@@ -123,43 +109,63 @@ def removeContext(profileURL):
 '''
 METHODS TO CHANGE CONTENTS OF CONTEXT
 '''
-@app.route('user/<profileURL>/add_lens_to_context', methods=['GET','POST'])
-def add_lens_to_context(profileURL):
+@app.route('user/<profileURL>/add_aspect_to_context', methods=['GET','POST'])
+def add_aspect_to_context(profileURL):
     user = User.query.filter(User.url == profileURL).one()
-    if method == 'GET':
-        form = AddLensContextForm(request.form)
-        form.lens.choices = [(lens.lens_id, lens.title) for lens in user.lens]
-        form.context.choices = [(context.context_id, context.name) for context in user.context]
-        return render_template('add_lens_to_context.html', form=form)
-    elif method == 'POST':
-        context = Context.get(int(request.form['contextID']))
-        lens = Lens.get(int(request.form['lensID']))
-        context.lens.append(lens)
+    form = AddAspectContextForm(request.form)
+    form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]
+    form.context.choices = [(context.context_id, context.name) for context in user.context]
+    if form.validate_on_submit():
+        context = Context.get(int(request.form['Context']))
+        aspect = Aspect.get(int(request.form['Aspect']))
+        context.aspect.append(aspect)
         db_session.add(context)
-        db_session.add(lens)
+        db_session.add(aspect)
         db_session.commit()
         return redirect(url_for('getProfile', profileURL = profileURL))
+    else:
+        return render_template('add_aspect_to_context.html', form=form)
 
-@app.route('user/<profileURL>/remove_lens_from_context', methods=['GET','POST'])
-def remove_lens_from_context(profileURL):
+@app.route('user/<profileURL>/remove_aspect_from_context', methods=['GET','POST'])
+def remove_aspect_from_context(profileURL):
     user = User.query.filter(User.url == profileURL).one()
-    if method == 'GET':
-        form = RemoveLensContextForm(request.form)
-        form.lens.choices = [(lens.lens_id, lens.title) for lens in user.lens]
-        form.context.choices = [(context.context_id, context.name) for context in user.context]
-        return render_template('remove_lens_from_context.html', form=form)
-    elif method == 'POST':
-        context = Context.get(int(request.form['contextID']))
-        lens = Lens.get(int(request.form['lensID']))
-        context.lens.remove(lens)
+    form = RemoveAspectContextForm(request.form)
+    form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]
+    form.context.choices = [(context.context_id, context.name) for context in user.context]
+        
+    if form.validate_on_submit():
+        context = Context.get(int(request.form['Context']))
+        aspect = Aspect.get(int(request.form['Aspect']))
+        context.aspect.remove(aspect)
         db_session.add(context)
-        db_session.add(lens)
+        db_session.add(aspect)
         db_session.commit()
         return redirect(url_for('getProfile', profileURL = profileURL))
+    else:
+        return render_template('remove_aspect_from_context.html', form=form)
+# Controllers & Basics
+@app.route('/')
+def home():
+    return render_template('pages/home.html')
 
-@app.route('/register')
+@app.route('/about')
+def about():
+    return render_template('pages/about.html')
+
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    form = LoginForm(request.form)
+    return render_template('forms/login.html', form = form)
+
+@app.route('/register', methods = ['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
+    if form.validate_on_submit():
+        newUser = User(request.form['name'], request.form['email'], 
+                                    request.form['password'], request.form['url'])
+        db_session.add(newUser)
+        db_session.commit()
+        return redirect(url_for('getProfile'))
     return render_template('forms/register.html', form = form)
 
 @app.route('/forgot')
