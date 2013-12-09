@@ -1,6 +1,7 @@
 from models import *
 from forms import *
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.login import login_user, current_user
 from flask import Flask, request, session, g, redirect, url_for,\
      abort, render_template, flash, make_response
 from app import app, db
@@ -26,7 +27,7 @@ def getVisibleAspects(pageUser, viewUser):
 @app.route('/user/<profileURL>')
 def getProfile(profileURL):
     user = User.query.filter(User.url == profileURL).one()
-    user_aspects = getVisibleAspects(user, flask.ext.login.current_user)
+    user_aspects = getVisibleAspects(user, current_user)
     aspects = []
     for each in user_aspects:
         aspect = {'title': each.title}
@@ -41,7 +42,7 @@ def getProfile(profileURL):
                 except IndexError:
                     pass
             aspect[rows].append(row)
-    return render_template('pages/user_profile', user = user, aspects = aspects)
+    return render_template('pages/user_profile.html', user = user, aspects = aspects)
 '''
 METHODS TO ADD NEW OBJECTS
 '''
@@ -101,14 +102,14 @@ def addContext(profileURL):
 def addConnection(profileURL):
     form = CreateConnectionForm(request.form)
     otherUser = User.query.filter(User.url == profileURL)
-    thisUser = flask.ext.login.current_user
+    thisUser = current_user
     form.theirContext.choices = [(context.id, context.name) for context in otherUser.context]
     form.yourContext.choices = [(context.id, context.name) for context in thisUser.context]
     if form.validate_on_submit():
         firstWayConnection = Connection(thisUser.user_id, int(request.form['yourContext']),
-                                                            otherUser.user_id, int(request.form['theirContext']))
+                                                            otherUser.user_id, int(request.form['theirContext']), True)
         secondWayConnection = Connection(otherUser.user_id, int(request.form['theirContext']),
-                                                            thisUser.user_id, int(request.form['yourContext']))
+                                                            thisUser.user_id, int(request.form['yourContext']), True)
         
         db_session.add(firstWayConnection)
         db_session.add(secondWayConnection)
@@ -191,10 +192,18 @@ def about():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
+    if form.is_submitted():
+        flash("The form submitted...")
+        print "submitted form."
+    if form.validate():
+        flash("And it's valid!")
+        print "validated form"
     if form.validate_on_submit():
-        user = User.query.get(User.name == request.form['name']).one()
+        user = User.query.filter(User.name == request.form['name']).one()
+        print "queried database to find user"
         if user.password == request.form['password']:
             login_user(user)
+            print "login should happen"
             flash("Logged in successfully.")
             return redirect(url_for('getProfile', profileURL = user.url))
         else:
@@ -207,14 +216,19 @@ def login():
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
+    if form.is_submitted():
+        flash("The form submitted...")
+    if form.validate():
+        flash("And it's valid!")
+    else:
+        flash("Didn't validate :(")
     if form.validate_on_submit():
         newUser = User(request.form['name'], request.form['email'], 
                                     request.form['password'], request.form['url'])
         db_session.add(newUser)
         db_session.commit()
+        flash("It all worked, you're in the system!")
         return redirect(url_for('home'))
-    elif request.method == 'POST':
-        flash("Not a valid input.")
     return render_template('forms/register.html', form = form)
 
 @app.route('/forgot')

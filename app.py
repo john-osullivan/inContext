@@ -4,7 +4,7 @@
 
 from flask import * # do not use '*'; actually input the dependencies.
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
+from flask.ext.login import LoginManager, login_user
 import logging
 from logging import Formatter, FileHandler
 
@@ -19,10 +19,11 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.needs_refresh_message = (
+    u"You have to log in again to protect your account, sorry!")
 
-from models import db_session
-from forms import *
 from models import *
+from forms import *
 from views import *
 
 # Automatically tear down SQLAlchemy.
@@ -33,10 +34,14 @@ def shutdown_session(exception=None):
 # Get users for flask-login
 @login_manager.user_loader
 def load_user(userid):
-    return User.get(int(userid))
+    return User.query.get(int(userid))
+
+# Let users refresh their authentication
+@login_manager.needs_refresh_handler
+def refresh():
+    return redirect(url_for('login'))
 
 # Error handlers.
-
 @app.errorhandler(500)
 def internal_error(error):
     #db_session.rollback()
