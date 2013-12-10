@@ -21,7 +21,7 @@
 
 {% for aspect in aspects %}
 <div class="section">
-    <div class="page-header">
+    <div class="page-header" style="margin-top: -100px">
         <div class='row'>
             <h1> {{ user.name }} </h1>
             <p class="float-right">
@@ -41,7 +41,7 @@
             <a role='button' class='btn btn-default' href="{{ url_for('addContext', profileURL = current_user.url) }}">Add Context</a>
             <a role='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>
                 Edit Contexts <span class="caret"></span>
-            </button>
+            </a>
             <ul class='dropdown-menu' role="menu">
                 <li><a href="{{ url_for('add_aspect_to_context', profileURL = current_user.url) }}">Add Aspect to Context</a></li>
                 <li><a href="{{ url_for('remove_aspect_from_context', profileURL = current_user.url) }}">Remove Aspect from Context</a></li>
