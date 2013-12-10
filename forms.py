@@ -32,9 +32,9 @@ class ForgotForm(BaseForm):
 
 class CreateDetailForm(BaseForm):
     title = TextField('Title', validators = [Required(), Length(min=1, max=30)])
-    aspect = SelectField('Aspect', validators = [Required()])
+    aspect = SelectField('Aspect', validators = [Required()], coerce = int)
     text = TextField('Text', validators = [Length(min = 6, max = 420)])
-    image = TextField('Image (URL)', validators = [Length(min=6, max=60), URL()])
+    image = TextField('Image (URL)', validators = [Length(min=6, max=140), URL()])
 
 class CreateAspectForm(BaseForm):
     title = TextField('Title', validators = [Required(), Length(min=1, max=30)])

@@ -2,9 +2,10 @@
 {% block title %}Create Connection{% endblock %}
 {% block content %}
 <form method="post" class="form">
-    <h3 class="form-heading">Create New Connection<a href="{{ url_for('getProfile') }}" title="Back to your page"><i class="icon icon-home pull-right"></i></a></h3>
+    <h3 class="form-heading">Create New Connection<a href="{{ url_for('getProfile', profileURL = current_user.url) }}" title="Back to your page"><i class="icon icon-home pull-right"></i></a></h3>
+    {{ form.csrf_token }}
     {{ form.yourContext(class_ = 'form-control first-input', placeholder = form.yourContext.label.text, required = true, autofocus = true) }}
     {{ form.theirContext(class_ = 'form-control', placeholder = form.theirContext.label.text, required = true) }}
-    <input type="submit" value="Create" class="btn btn-primary btn-lg btn-block" action = "{{ url_for('addConnection') }}">
+    <input type="submit" value="Create" class="btn btn-primary btn-lg btn-block" action = "{{ url_for('addConnection', profileURL = current_user.url) }}">
 </form>
 {% endblock %}

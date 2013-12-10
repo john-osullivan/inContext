@@ -7,15 +7,23 @@
         margin-right: 20px;
         border: 2px solid;
         border-radius: 10px;
+        padding: 10px;
     }
     .cardRow {
         margin-top : 10px;
         margin-bottom: 10px;
     }
+
+    .cardBox p {
+        font-size: 18px;
+    }
 </style>
+<div class="section">
 <div class='row'>
     <h1> {{ user.name }} </h1>
-    <p class="float-right"> Get to know me as a
+    <p class="float-right">
+    {% if not yourPage %}
+     Get to know me as a
         <button type="button" class="btn btn-default dropdown-toggle float-right" data-toggle="dropdown">
             ...
             <span class="caret"></span>
@@ -25,7 +33,13 @@
         <li><a href="{{ url_for('createConnection') }}">{{ context.name }}</a></li>
         {% endfor %}
     </ul>
+    {% else %}
+    <a role='button' class='btn btn-default' href="{{ url_for('addDetail', profileURL = current_user.url) }}">Add Detail</a>
+    <a role='button' class='btn btn-default' href="{{ url_for('addAspect', profileURL = current_user.url) }}">Add Aspect</a>
+    <a role='button' class='btn btn-default' href="{{ url_for('addContext', profileURL = current_user.url) }}">Add Context</a>
+    {% endif %}
     </p>
+</div>
 </div>
 {% for aspect in aspects %}
 <div class="section">
@@ -37,7 +51,7 @@
             <div class='cardBox'>
                 <h3>{{ detail.title }}</h3>
                 {% if detail.image %}
-                <img class="img-rounded" src="{{ detail.image.url }}">
+                <img class="img-rounded" src="{{ detail.image[0].url }}">
                 {% endif %}
                 {% if detail.text %}
                 <p>{{ detail.text }}</p>

@@ -87,7 +87,7 @@ class Aspect(Base):
 
     aspect_id =  Column( Integer, primary_key = True)
     user_id =  Column( Integer,  ForeignKey('users.user_id'), nullable = False)
-    title =  Column( String(120))
+    title =  Column( String(120), nullable = False)
     detail =  relationship("Detail")    
 
     def __init__(self, user_id, title):
@@ -131,7 +131,7 @@ class Image(Base):
     url =  Column( String(30), nullable = False)
 
     def __init__(self, url):
-        this.url = url
+        self.url = url
 
 # Create tables.
 Base.metadata.create_all(bind=engine)

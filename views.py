@@ -6,6 +6,10 @@ from flask import Flask, request, session, g, redirect, url_for,\
      abort, render_template, flash, make_response
 from app import app, db
 
+@app.context_processor
+def add_user():
+    return dict(current_user = current_user)
+
 def login_required(test):
     @wraps(test)
     def wrap(*args, **kwargs):
@@ -26,23 +30,29 @@ def getVisibleAspects(pageUser, viewUser):
 
 @app.route('/user/<profileURL>')
 def getProfile(profileURL):
+    from math import ceil
     user = User.query.filter(User.url == profileURL).one()
     user_aspects = getVisibleAspects(user, current_user)
     aspects = []
     for each in user_aspects:
-        aspect = {'title': each.title}
-        aspect[rows] = []
-        aspect_cards = each.card
-        numRows = math.ceil(len(aspect_cards) / 3)
+        aspect_data = {'title': each.title}
+        aspect_data['rows'] = []
+        aspect_details = each.detail
+        numRows = int(ceil(len(aspect_details) / 3.0))
+        print numRows
         for i in range(numRows):
             row = []
             for j in range(3):
                 try:
-                    row.append(aspect_cards[3 * i + j])
+                    row.append(aspect_details[3 * i + j])
+                    print aspect_details[3 * i + j].image[0].url
                 except IndexError:
                     pass
-            aspect[rows].append(row)
-    return render_template('pages/user_profile.html', user = user, aspects = aspects)
+            aspect_data['rows'].append(row)
+            print row
+        aspects.append(aspect_data)
+    return render_template('pages/user_profile.html', user = user, aspects = aspects,
+                                             yourPage = user.user_id == current_user.user_id)
 '''
 METHODS TO ADD NEW OBJECTS
 '''
@@ -52,20 +62,24 @@ def addDetail(profileURL):
     form = CreateDetailForm(request.form)
     form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]    
     if form.validate_on_submit():
-        aspect = Aspect.query.filter(Aspect.user_id == user.user_id, Aspect.aspect == request.form['aspect']).one()
-        newDetail = Detail(aspect.aspect_id, user.user_id, request.form['title'])
-        if request.form['image'] != '':
-            imageURL = request.form['image']
+        print "form.aspect.data: ",form.aspect.data
+        aspect = Aspect.query.filter(Aspect.user_id == user.user_id, Aspect.aspect_id == int(form.aspect.data)).one()
+        newDetail = Detail(aspect.aspect_id, user.user_id, form.title.data)
+        if form.image.data != '':
+            imageURL = form.image.data
             newImage = Image(imageURL)
             newDetail.image.append(newImage)
-        newDetail.text = request.form['text']
-        user.card.append(newDetail)
-        aspect.card.append(newDetail)
+        newDetail.text = form.text.data
+        user.detail.append(newDetail)
+        aspect.detail.append(newDetail)
         db_session.add(newDetail)
         db_session.commit()
+        flash("You just added a detail called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
-        return render_template('create_detail.html', form=form)
+        flash(form.errors)
+        print "form.aspect.data: ",form.aspect.data
+        return render_template('forms/create_detail.html', form=form)
 
 @app.route('/user/<profileURL>/addAspect', methods=['GET','POST'])
 def addAspect(profileURL):
@@ -73,29 +87,43 @@ def addAspect(profileURL):
     form = CreateAspectForm(request.form)
     form.context.choices = [(context.context_id, context.name) for context in user.context]
     if form.validate_on_submit():
-        newAspect = Aspect(user.user_id, request.form['aspectTitle'])
-        if request.form['contexts'] != []:
-            for contextID in request.form['contexts']:
-                Context.get(int(contextID)).aspect.append(newAspect)
+        print "Well, it validated."
+        newAspect = Aspect(user.user_id, form.title.data)
+        print "Made the aspect."
+        print "Let's check for a context: ",form.context.data
+        if form.context.data != []:
+            print "It also thought I picked a context."
+            print "And here was the value for context: ",request.form['context']
+            for contextID in request.form['context']:
+                Context.query.get(int(contextID)).aspect.append(newAspect)
+        print user.aspect
         user.aspect.append(newAspect)
+        print "Added the aspect to the user"
         db_session.add(newAspect)
+        print "And to the session..."
         db_session.commit()
+        print "And it committed that shit."
+        flash("You just created an aspect called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
-        return render_template('create_aspect.html', form=form)
+        flash(form.errors)
+        return render_template('forms/create_aspect.html', form=form)
 
 @app.route('/user/<profileURL>/addContext', methods=['GET','POST'])
 def addContext(profileURL):
     form = CreateContextForm(request.form)
     user = User.query.filter(User.url == profileURL).one()
     if form.validate_on_submit():
+        print "it's making contexts!"
         newContext = Context(user.user_id, request.form['name'])
         user.context.append(newContext)
         db_session.add(newContext)
         db_session.commit()
+        flash("You just created a context called " + request.form['name'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
-        return render_template('create_context.html', form=form)
+        flash(form.errors)
+        return render_template('forms/create_context.html', form=form)
 
 
 @app.route('/user/<profileURL>/addConnection')
@@ -114,7 +142,11 @@ def addConnection(profileURL):
         db_session.add(firstWayConnection)
         db_session.add(secondWayConnection)
         db_session.commit()
+        flash("It worked, connection sent!")
         return redirect(url_for('getProfile', profileURL = profileURL))
+    else:
+        return render_template('forms/create_connection.html', form=form)
+        
 '''
 METHODS TO REMOVE OBJECTS (still not implemented in forms or html)
 '''

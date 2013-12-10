@@ -2,40 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1012e89-349e-495a-8b6f-8b0590ae0f66" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../static/js/initialization_script.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../pages/initialization_script.js" />
-      <change type="DELETED" beforePath="C:\Users\John\Dropbox\School\CMS.100\inContext\inContext\templates\forms\add_lens_to_context.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\John\Dropbox\School\CMS.100\inContext\inContext\templates\forms\create_lens.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\John\Dropbox\School\CMS.100\inContext\inContext\templates\forms\remove_lens_from_context.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../database.db" afterPath="$PROJECT_DIR$/../../database.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../app.py" afterPath="$PROJECT_DIR$/../../app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../forms.py" afterPath="$PROJECT_DIR$/../../forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../pages/home.html" afterPath="$PROJECT_DIR$/../pages/home.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/login.html" afterPath="$PROJECT_DIR$/login.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_aspect.html" afterPath="$PROJECT_DIR$/create_aspect.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_connection.html" afterPath="$PROJECT_DIR$/create_connection.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_context.html" afterPath="$PROJECT_DIR$/create_context.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_detail.html" afterPath="$PROJECT_DIR$/create_detail.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../layouts/main.html" afterPath="$PROJECT_DIR$/../layouts/main.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../models.py" afterPath="$PROJECT_DIR$/../../models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/register.html" afterPath="$PROJECT_DIR$/register.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../pages/user_profile.html" afterPath="$PROJECT_DIR$/../pages/user_profile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../views.py" afterPath="$PROJECT_DIR$/../../views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="forms.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386540737184" ignored="false" />
     <file path="/add_lens_to_context.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386542765275" ignored="false" />
     <file path="/create_card.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386542753815" ignored="false" />
-    <file path="/create_context.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386542836928" ignored="false" />
+    <file path="/create_context.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386642819419" ignored="false" />
     <file path="/create_lens.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386542842765" ignored="false" />
     <file path="/remove_lens_from_context.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386542860560" ignored="false" />
-    <file path="/create_connection.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386564336633" ignored="false" />
+    <file path="/create_connection.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386642626113" ignored="false" />
     <file path="/register.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386618676964" ignored="false" />
     <file path="/500.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386566117575" ignored="false" />
     <file path="/404.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386566121644" ignored="false" />
-    <file path="/main.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386573652374" ignored="false" />
+    <file path="/main.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386636668378" ignored="false" />
     <file path="/home.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386631158698" ignored="false" />
     <file path="/jquery.fullPage.js" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386574889284" ignored="false" />
     <file path="/login.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386618443273" ignored="false" />
-    <file path="/user_profile.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386619632495" ignored="false" />
+    <file path="/user_profile.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386645628856" ignored="false" />
+    <file path="/create_aspect.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386642802800" ignored="false" />
+    <file path="/create_detail.html" changelist="f1012e89-349e-495a-8b6f-8b0590ae0f66" time="1386642734284" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,25 +50,16 @@
       <file leaf-file-name="login.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="25" selection-start="305" selection-end="305" vertical-scroll-proportion="-3.2692308">
+            <state line="5" column="4" selection-start="284" selection-end="305" vertical-scroll-proportion="-3.2692308">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="create_connection.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/create_connection.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="116" selection-start="674" selection-end="674" vertical-scroll-proportion="-4.576923">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="home.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="home.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../pages/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="87" selection-start="745" selection-end="745" vertical-scroll-proportion="0.35091743">
+            <state line="18" column="87" selection-start="745" selection-end="745" vertical-scroll-proportion="-11.769231">
               <folding />
             </state>
           </provider>
@@ -87,7 +70,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state line="16" column="32" selection-start="425" selection-end="425" vertical-scroll-proportion="-10.074074">
               <folding>
-                <marker date="1386574917912" expanded="false" signature="28853:28860" placeholder="..." />
+                <marker date="1386645570881" expanded="false" signature="28853:28860" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -105,19 +88,17 @@
       <file leaf-file-name="main.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../layouts/main.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="111" column="57" selection-start="4766" selection-end="4766" vertical-scroll-proportion="-22.961538">
+            <state line="62" column="25" selection-start="3067" selection-end="3067" vertical-scroll-proportion="-19.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jquery.fullPage.min.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../static/js/jquery.fullPage.min.js">
+      <file leaf-file-name="user_profile.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../pages/user_profile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <marker date="1386442579135" expanded="false" signature="5026:5033" placeholder="..." />
-              </folding>
+            <state line="17" column="23" selection-start="384" selection-end="384" vertical-scroll-proportion="0.34201184">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -125,25 +106,34 @@
       <file leaf-file-name="create_context.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_context.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="54" selection-start="569" selection-end="569" vertical-scroll-proportion="-5.8846154">
+            <state line="5" column="25" selection-start="352" selection-end="352" vertical-scroll-proportion="-3.2692308">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="register.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/register.html">
+      <file leaf-file-name="create_connection.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/create_connection.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="3" selection-start="316" selection-end="316" vertical-scroll-proportion="-4.576923">
+            <state line="5" column="25" selection-start="358" selection-end="358" vertical-scroll-proportion="-3.2692308">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user_profile.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../pages/user_profile.html">
+      <file leaf-file-name="create_aspect.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/create_aspect.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="17" selection-start="1327" selection-end="1327" vertical-scroll-proportion="-28.115385">
+            <state line="7" column="82" selection-start="563" selection-end="563" vertical-scroll-proportion="-4.576923">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="create_detail.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/create_detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="25" selection-start="350" selection-end="350" vertical-scroll-proportion="-3.2692308">
               <folding />
             </state>
           </provider>
@@ -167,21 +157,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/create_card.html" />
-        <option value="$PROJECT_DIR$/create_context.html" />
         <option value="$PROJECT_DIR$/create_lens.html" />
         <option value="$PROJECT_DIR$/remove_lens_from_context.html" />
-        <option value="$PROJECT_DIR$/create_connection.html" />
         <option value="$PROJECT_DIR$/../errors/500.html" />
         <option value="$PROJECT_DIR$/../errors/404.html" />
         <option value="$PROJECT_DIR$/../pages/initialization_script.js" />
-        <option value="$PROJECT_DIR$/../layouts/main.html" />
         <option value="$PROJECT_DIR$/add_lens_to_context.html" />
-        <option value="$PROJECT_DIR$/../../../../../Self-Teach/fullPage.js/jquery.fullPage.js" />
         <option value="$PROJECT_DIR$/login.html" />
         <option value="$PROJECT_DIR$/register.html" />
-        <option value="$PROJECT_DIR$/../pages/user_profile.html" />
         <option value="$PROJECT_DIR$/../pages/home.html" />
+        <option value="$PROJECT_DIR$/../layouts/main.html" />
+        <option value="$PROJECT_DIR$/create_context.html" />
+        <option value="$PROJECT_DIR$/create_connection.html" />
+        <option value="$PROJECT_DIR$/create_detail.html" />
+        <option value="$PROJECT_DIR$/create_aspect.html" />
+        <option value="$PROJECT_DIR$/../../../../../Self-Teach/fullPage.js/jquery.fullPage.js" />
+        <option value="$PROJECT_DIR$/../pages/user_profile.html" />
       </list>
     </option>
   </component>
@@ -234,7 +225,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pages/user_profile.html" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/create_detail.html" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -246,6 +237,21 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
+      <method />
+    </configuration>
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -364,13 +370,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/create_connection.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="116" selection-start="674" selection-end="674" vertical-scroll-proportion="-4.576923">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../errors/404.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="29" selection-start="135" selection-end="135" vertical-scroll-proportion="-2.6153846">
@@ -401,25 +400,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="3" selection-start="316" selection-end="316" vertical-scroll-proportion="-4.576923">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../../static/js/jquery.fullPage.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1386442579135" expanded="false" signature="5026:5033" placeholder="..." />
+            <marker date="1386442579135" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/create_context.html">
+    <entry file="file://$PROJECT_DIR$/../pages/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="54" selection-start="569" selection-end="569" vertical-scroll-proportion="-5.8846154">
+        <state line="18" column="87" selection-start="745" selection-end="745" vertical-scroll-proportion="-11.769231">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../layouts/main.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="57" selection-start="4766" selection-end="4766" vertical-scroll-proportion="-22.961538">
+        <state line="62" column="25" selection-start="3067" selection-end="3067" vertical-scroll-proportion="-19.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="4" selection-start="284" selection-end="305" vertical-scroll-proportion="-3.2692308">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_connection.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="25" selection-start="358" selection-end="358" vertical-scroll-proportion="-3.2692308">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_context.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="25" selection-start="352" selection-end="352" vertical-scroll-proportion="-3.2692308">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_aspect.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="82" selection-start="563" selection-end="563" vertical-scroll-proportion="-4.576923">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="25" selection-start="350" selection-end="350" vertical-scroll-proportion="-3.2692308">
           <folding />
         </state>
       </provider>
@@ -428,35 +469,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="32" selection-start="425" selection-end="425" vertical-scroll-proportion="-10.074074">
           <folding>
-            <marker date="1386574917912" expanded="false" signature="28853:28860" placeholder="..." />
+            <marker date="1386645570881" expanded="false" signature="28853:28860" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="25" selection-start="305" selection-end="305" vertical-scroll-proportion="-3.2692308">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/register.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="3" selection-start="316" selection-end="316" vertical-scroll-proportion="-4.576923">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../pages/user_profile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="17" selection-start="1327" selection-end="1327" vertical-scroll-proportion="-28.115385">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../pages/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="87" selection-start="745" selection-end="745" vertical-scroll-proportion="0.35091743">
+        <state line="17" column="23" selection-start="384" selection-end="384" vertical-scroll-proportion="0.34201184">
           <folding />
         </state>
       </provider>

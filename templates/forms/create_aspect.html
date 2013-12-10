@@ -1,10 +1,11 @@
 {% extends 'layouts/form.html' %}
-{% block title %}Create Lens{% endblock %}
+{% block title %}Create Aspect{% endblock %}
 {% block content %}
 <form method="post" class="form">
-    <h3 class="form-heading">Create New Lens<a href="{{ url_for('getProfile') }}" title="Back to your page"><i class="icon icon-home pull-right"></i></a></h3>
+    <h3 class="form-heading">Create New Aspect<a href="{{ url_for('getProfile', profileURL = current_user.url) }}" title="Back to your page"><i class="icon icon-home pull-right"></i></a></h3>
+    {{ form.csrf_token }}
     {{ form.title(class_ = 'form-control first-input', placeholder = form.title.label.text, required = true, autofocus = true) }}
-    {{ form.context(class_ = 'form-control', placeholder = form.context.label.text, required = true) }}
-    <input type="submit" value="Create" class="btn btn-primary btn-lg btn-block" action = "{{ url_for('addLens') }}">
+    {{ form.context(class_ = 'form-control', placeholder = form.context.label.text) }}
+    <input type="submit" value="Create" class="btn btn-primary btn-lg btn-block" action = "{{ url_for('addAspect', profileURL = current_user.url) }}">
 </form>
 {% endblock %}
