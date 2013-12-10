@@ -57,6 +57,7 @@
             <li {% if request.endpoint == 'about' %} class="active" {% endif %} ><a href="{{ url_for('about') }}">About</a></li>
               {% if not current_user.is_anonymous() %}
               <li><a href="{{ url_for('getProfile', profileURL = current_user.url) }}">Your Page</a></li>
+              <li><a href="{{ url_for('logout') }}">Log Out</a></li>
               {% else %}
               <li><a href="{{ url_for('login') }}">Login</a></li>
               <li><a href="{{ url_for('register') }}">Register Now!</a></li>

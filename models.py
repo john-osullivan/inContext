@@ -1,7 +1,8 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, CheckConstraint
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Table
+from flask.ext.sqlalchemy import sqlalchemy
 
 engine = create_engine('sqlite:///database.db', echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
@@ -9,6 +10,7 @@ db_session = scoped_session(sessionmaker(autocommit=False,
                                          bind=engine))
 Base = declarative_base()
 Base.query = db_session.query_property()
+Base.metadata.bind = engine
 
 
 # Set your classes here.
@@ -22,7 +24,7 @@ class User(Base):
     email =  Column( String(120), unique=True)
     url =  Column( String(30), unique=True)
     password =  Column( String(30))
-    connection =  relationship("Connection")
+    connection =  relationship("Connection", secondary = 'users_to_connections', backref='users')
     perspective = relationship("Perspective")
     context =  relationship("Context")
     aspect =  relationship("Aspect")
@@ -115,16 +117,19 @@ class Perspective(Base):
         self.user_id = user_id
         self.context_id = context_id
 
+users_to_connections = Table('users_to_connections', Base.metadata,
+    Column('user_id', Integer, ForeignKey('users.user_id')),
+    Column('connection_id', Integer, ForeignKey('connections.connection_id'))
+    )
+
 class Connection(Base):
     __tablename__ = 'connections'
-    __table_args__ = (
-        sqlalchemy.ForeignKeyConstraint(['first_user_id'], ['users.user_id']),
-        sqlalchemy.ForeignKeyConstraint(['second_user_id'], ['users.user_id']),
-        {'autoload': True, 'useexisting': True})
+
     connection_id =  Column( Integer, primary_key = True)
     perspective = relationship('Perspective', secondary = 'perspectives_to_connections',
                                                     backref = 'connections')
     accepted =  Column( Boolean)
+
 
     def __init__(self):
         self.accepted =  False
@@ -140,4 +145,5 @@ class Image(Base):
         self.url = url
 
 # Create tables.
+Base.metadata.bind = engine
 Base.metadata.create_all(bind=engine)

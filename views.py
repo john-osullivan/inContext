@@ -1,7 +1,8 @@
 from models import *
 from forms import *
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import login_user, current_user
+from sqlalchemy.orm.exc import NoResultFound
+from flask.ext.login import login_user, current_user, logout_user
 from flask import Flask, request, session, g, redirect, url_for,\
      abort, render_template, flash, make_response
 from app import app, db
@@ -25,12 +26,11 @@ def getVisibleAspects(pageUser, viewUser):
         return pageUser.aspect
     else:
         # Look for an existing connection between them
-        connectionContext = Connection.query.filter(or_(Connection.first_user_id == pageUser.user_id,
-                                                                                            Connection.first_user_id == viewUser.user_id)
-                                                                            ).filter(or_(Connection.second_user_id == pageUser.user_id,
-                                                                                              Connection.second_user_id == viewUser.user_id)).one()
+        try:
+            connectionContext = Connection.query.filter(Connection.users.contains(pageUser)\
+                                                                          ).filter(Connection.users.contains(viewUser)).one()
         # If there isn't one, return the Public context.
-        if connectionContext == None:
+        except NoResultFound, e:
             public_context = Context.query.filter(Context.user_id == pageUser.user_id, Context.name == 'Public').one()
             return public_context.aspect
         
@@ -151,8 +151,8 @@ def addConnection(profileURL):
         yourPerspective = check_for_perspective(thisUser.user_id, int(form.yourContext.data))
         theirPerspective = check_for_perspective(otherUser.user_id, int(form.theirContext.data))
         newConnection = Connection()
-        newConnection.first_user_id = thisUser.user_id
-        newConnection.second_user_id = otherUser.user_id
+        newConnection.users.append(thisUser.user_id)
+        newConnection.users.append(otherUser.user_id)
         newConnection.perspective.append(yourPerspective)
         newConnection.perspective.append(theirPerspective)
         db_session.add(newConnection)
@@ -199,15 +199,17 @@ def add_aspect_to_context(profileURL):
     form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]
     form.context.choices = [(context.context_id, context.name) for context in user.context]
     if form.validate_on_submit():
-        context = Context.get(int(request.form['Context']))
-        aspect = Aspect.get(int(request.form['Aspect']))
+        context = Context.query.get(int(form.context.data))
+        aspect = Aspect.query.get(int(form.aspect.data))
         context.aspect.append(aspect)
         db_session.add(context)
         db_session.add(aspect)
         db_session.commit()
+        flash("Aspect added!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
-        return render_template('add_aspect_to_context.html', form=form)
+        flash(form.errors)
+        return render_template('forms/add_aspect_to_context.html', form=form)
 
 @app.route('/user/<profileURL>/remove_aspect_from_context', methods=['GET','POST'])
 def remove_aspect_from_context(profileURL):
@@ -216,15 +218,17 @@ def remove_aspect_from_context(profileURL):
     form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]
     form.context.choices = [(context.context_id, context.name) for context in user.context]    
     if form.validate_on_submit():
-        context = Context.get(int(request.form['Context']))
-        aspect = Aspect.get(int(request.form['Aspect']))
+        context = Context.get(int(form.context.data))
+        aspect = Aspect.get(int(form.aspect.data))
         context.aspect.remove(aspect)
         db_session.add(context)
         db_session.add(aspect)
         db_session.commit()
+        flash("Aspect removed!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
-        return render_template('remove_aspect_from_context.html', form=form)
+        flash(form.errors)
+        return render_template('forms/remove_aspect_from_context.html', form=form)
 
 
 # Controllers & Basics
@@ -260,6 +264,12 @@ def login():
         flash("Not a valid input.")
         return render_template('forms/login.html', form = form)
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    logout_user()
+    flash("Logged out!")
+    return redirect(url_for("home"))
+
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
@@ -268,12 +278,20 @@ def register():
     if form.validate():
         flash("And it's valid!")
     else:
+        print form.errors
         flash("Didn't validate :(")
     if form.validate_on_submit():
         newUser = User(request.form['name'], request.form['email'], 
                                     request.form['password'], request.form['url'])
         db_session.add(newUser)
         db_session.commit()
+        public_context = Context(newUser.user_id, "Public")
+        public_context.aspect.append(basic_info)
+        basic_info = Aspect(newUser.user_id, "Basic Info")
+        db_session.add(public_context)
+        db_session.add(basic_info)
+        db_session.commit()
+        login_user(newUser)
         flash("It all worked, you're in the system!")
         return redirect(url_for('home'))
     return render_template('forms/register.html', form = form)

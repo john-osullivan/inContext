@@ -35,9 +35,18 @@
                 {% endfor %}
             </ul>
             {% else %}
-            <a role='button' class='btn btn-default' href="{{ url_for('addDetail', profileURL = current_user.url) }}">Add Detail</a>
-            <a role='button' class='btn btn-default' href="{{ url_for('addAspect', profileURL = current_user.url) }}">Add Aspect</a>
-            <a role='button' class='btn btn-default' href="{{ url_for('addContext', profileURL = current_user.url) }}">Add Context</a>
+            <div class='btn-group'>
+            <button role='button' class='btn btn-default' href="{{ url_for('addDetail', profileURL = current_user.url) }}">Add Detail</button>
+            <button role='button' class='btn btn-default' href="{{ url_for('addAspect', profileURL = current_user.url) }}">Add Aspect</button>
+            <button role='button' class='btn btn-default' href="{{ url_for('addContext', profileURL = current_user.url) }}">Add Context</button>
+            <button role='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>
+                Edit Contexts <span class="caret"></span>
+            </button>
+            <ul class='dropdown-menu' role="menu">
+                <li><a href="{{ url_for('add_aspect_to_context', profileURL = current_user.url) }}">Add Aspect to Context</a></li>
+                <li><a href="{{ url_for('remove_aspect_from_context', profileURL = current_user.url) }}">Remove Aspect from Context</a></li>
+            </ul>
+            </div>
             {% endif %}
             </p>
         </div>
