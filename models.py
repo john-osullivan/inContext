@@ -111,24 +111,30 @@ class Perspective(Base):
     user_id = Column(Integer, ForeignKey('users.user_id'), nullable = False)
     context_id = Column(Integer, ForeignKey('contexts.context_id'), nullable = False)
 
+    def __init__(self, user_id, context_id):
+        self.user_id = user_id
+        self.context_id = context_id
+
 class Connection(Base):
     __tablename__ = 'connections'
+    __table_args__ = (
+        sqlalchemy.ForeignKeyConstraint(['first_user_id'], ['users.user_id']),
+        sqlalchemy.ForeignKeyConstraint(['second_user_id'], ['users.user_id']),
+        {'autoload': True, 'useexisting': True})
     connection_id =  Column( Integer, primary_key = True)
     perspective = relationship('Perspective', secondary = 'perspectives_to_connections',
                                                     backref = 'connections')
-    user_id = Column(Integer, ForeignKey('users.user_id'), nullable = False)
     accepted =  Column( Boolean)
 
     def __init__(self):
-
-        self.accepted = False
+        self.accepted =  False
 
 class Image(Base):
     __tablename__ = 'images'
 
     image_id =  Column( Integer, primary_key = True)
     detail_id = Column(Integer, ForeignKey('details.detail_id'))
-    url =  Column( String(30), nullable = False)
+    url =  Column( String(300), nullable = False)
 
     def __init__(self, url):
         self.url = url

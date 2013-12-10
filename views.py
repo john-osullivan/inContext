@@ -24,9 +24,22 @@ def getVisibleAspects(pageUser, viewUser):
     if pageUser == viewUser:
         return pageUser.aspect
     else:
-        connectionContext = Connection.query.filter(Connection.user1_id == viewUser.user_id,
-                                            Connection.user2_id == pageUser.user_id).user2_context
-        return connectionContext.aspect
+        # Look for an existing connection between them
+        connectionContext = Connection.query.filter(or_(Connection.first_user_id == pageUser.user_id,
+                                                                                            Connection.first_user_id == viewUser.user_id)
+                                                                            ).filter(or_(Connection.second_user_id == pageUser.user_id,
+                                                                                              Connection.second_user_id == viewUser.user_id)).one()
+        # If there isn't one, return the Public context.
+        if connectionContext == None:
+            public_context = Context.query.filter(Context.user_id == pageUser.user_id, Context.name == 'Public').one()
+            return public_context.aspect
+        
+        # Otherwise, find the perspective of the pageUser, return the aspects spec'd by its context        
+        else:
+            perspectives_in_question = connectionContext.perspective            
+            for perspective in perspectives_in_question:
+                if perspective.user_id == pageUser.user_id:
+                    return perspective.context.aspect
 
 @app.route('/user/<profileURL>')
 def getProfile(profileURL):
@@ -52,7 +65,8 @@ def getProfile(profileURL):
             print row
         aspects.append(aspect_data)
     return render_template('pages/user_profile.html', user = user, aspects = aspects,
-                                             yourPage = user.user_id == current_user.user_id)
+                                             yourPage = user.user_id == current_user.user_id, 
+                                             profileURL = profileURL)
 '''
 METHODS TO ADD NEW OBJECTS
 '''
@@ -77,8 +91,6 @@ def addDetail(profileURL):
         flash("You just added a detail called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
-        flash(form.errors)
-        print "form.aspect.data: ",form.aspect.data
         return render_template('forms/create_detail.html', form=form)
 
 @app.route('/user/<profileURL>/addAspect', methods=['GET','POST'])
@@ -87,26 +99,16 @@ def addAspect(profileURL):
     form = CreateAspectForm(request.form)
     form.context.choices = [(context.context_id, context.name) for context in user.context]
     if form.validate_on_submit():
-        print "Well, it validated."
         newAspect = Aspect(user.user_id, form.title.data)
-        print "Made the aspect."
-        print "Let's check for a context: ",form.context.data
         if form.context.data != []:
-            print "It also thought I picked a context."
-            print "And here was the value for context: ",request.form['context']
             for contextID in request.form['context']:
                 Context.query.get(int(contextID)).aspect.append(newAspect)
-        print user.aspect
         user.aspect.append(newAspect)
-        print "Added the aspect to the user"
         db_session.add(newAspect)
-        print "And to the session..."
         db_session.commit()
-        print "And it committed that shit."
         flash("You just created an aspect called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
-        flash(form.errors)
         return render_template('forms/create_aspect.html', form=form)
 
 @app.route('/user/<profileURL>/addContext', methods=['GET','POST'])
@@ -122,30 +124,43 @@ def addContext(profileURL):
         flash("You just created a context called " + request.form['name'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
-        flash(form.errors)
         return render_template('forms/create_context.html', form=form)
 
 
 @app.route('/user/<profileURL>/addConnection')
 def addConnection(profileURL):
+
+    # Helper function to create/find user perspectives to prevent duplication
+    def check_for_perspective(user_id, context_id):
+        perspective_check = Perspective.query.filter(Perspective.user_id == thisUser.user_id, Perspective.context_id == context_id).first()
+        if perspective_check == None:
+            newPerspective = Perspect(user_id, context_id)
+            db_session.add(newPerspective)
+            db_session.commit()
+        else:
+            newPerspective = perspective_check
+        return newPerspective
+
+    # Actual function
     form = CreateConnectionForm(request.form)
     otherUser = User.query.filter(User.url == profileURL)
     thisUser = current_user
     form.theirContext.choices = [(context.id, context.name) for context in otherUser.context]
     form.yourContext.choices = [(context.id, context.name) for context in thisUser.context]
     if form.validate_on_submit():
-        firstWayConnection = Connection(thisUser.user_id, int(request.form['yourContext']),
-                                                            otherUser.user_id, int(request.form['theirContext']), True)
-        secondWayConnection = Connection(otherUser.user_id, int(request.form['theirContext']),
-                                                            thisUser.user_id, int(request.form['yourContext']), True)
-        
-        db_session.add(firstWayConnection)
-        db_session.add(secondWayConnection)
+        yourPerspective = check_for_perspective(thisUser.user_id, int(form.yourContext.data))
+        theirPerspective = check_for_perspective(otherUser.user_id, int(form.theirContext.data))
+        newConnection = Connection()
+        newConnection.first_user_id = thisUser.user_id
+        newConnection.second_user_id = otherUser.user_id
+        newConnection.perspective.append(yourPerspective)
+        newConnection.perspective.append(theirPerspective)
+        db_session.add(newConnection)
         db_session.commit()
-        flash("It worked, connection sent!")
+        flash("It worked, connection made!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
-        return render_template('forms/create_connection.html', form=form)
+        return render_template('forms/create_connection.html', form=form, profileURL = profileURL)
         
 '''
 METHODS TO REMOVE OBJECTS (still not implemented in forms or html)

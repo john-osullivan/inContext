@@ -7,7 +7,7 @@
     {{ form.title(class_ = 'form-control first-input', placeholder = form.title.label.text, required = true, autofocus = true) }}
     {{ form.aspect(class_ = 'form-control', placeholder = form.aspect.label.text, required = true) }}
     {{ form.text(class_ = 'form-control', placeholder = form.text.label.text, required = true) }}
-    {{ form.image(class_ = 'form-control last-input', placeholder = form.image.label.text, required = true) }}
+    {{ form.image(class_ = 'form-control last-input', placeholder = form.image.label.text, required = false) }}
     <input type="submit" value="Create" class="btn btn-primary btn-lg btn-block" action = "{{ url_for('addDetail', profileURL = current_user.url) }}">
 </form>
 {% endblock %}
