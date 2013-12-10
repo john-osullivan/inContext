@@ -128,7 +128,7 @@ def addContext(profileURL):
 
 
 @app.route('/user/<profileURL>/addConnection')
-def addConnection(profileURL):
+def addConnection(profileURL, methods=["POST", "GET"]):
 
     # Helper function to create/find user perspectives to prevent duplication
     def check_for_perspective(user_id, context_id):
@@ -143,10 +143,10 @@ def addConnection(profileURL):
 
     # Actual function
     form = CreateConnectionForm(request.form)
-    otherUser = User.query.filter(User.url == profileURL)
+    otherUser = User.query.filter(User.url == profileURL).one()
     thisUser = current_user
-    form.theirContext.choices = [(context.id, context.name) for context in otherUser.context]
-    form.yourContext.choices = [(context.id, context.name) for context in thisUser.context]
+    form.theirContext.choices = [(context.context_id, context.name) for context in otherUser.context]
+    form.yourContext.choices = [(context.context_id, context.name) for context in thisUser.context]
     if form.validate_on_submit():
         yourPerspective = check_for_perspective(thisUser.user_id, int(form.yourContext.data))
         theirPerspective = check_for_perspective(otherUser.user_id, int(form.theirContext.data))
@@ -160,7 +160,8 @@ def addConnection(profileURL):
         flash("It worked, connection made!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
-        return render_template('forms/create_connection.html', form=form, profileURL = profileURL)
+        return render_template('forms/create_connection.html', form=form, profileURL = profileURL,
+                                                                                                     other_user = otherUser)
         
 '''
 METHODS TO REMOVE OBJECTS (still not implemented in forms or html)

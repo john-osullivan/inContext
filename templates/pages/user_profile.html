@@ -36,10 +36,10 @@
             </ul>
             {% else %}
             <div class='btn-group'>
-            <button role='button' class='btn btn-default' href="{{ url_for('addDetail', profileURL = current_user.url) }}">Add Detail</button>
-            <button role='button' class='btn btn-default' href="{{ url_for('addAspect', profileURL = current_user.url) }}">Add Aspect</button>
-            <button role='button' class='btn btn-default' href="{{ url_for('addContext', profileURL = current_user.url) }}">Add Context</button>
-            <button role='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>
+            <a role='button' class='btn btn-default' href="{{ url_for('addDetail', profileURL = current_user.url) }}">Add Detail</a>
+            <a role='button' class='btn btn-default' href="{{ url_for('addAspect', profileURL = current_user.url) }}">Add Aspect</a>
+            <a role='button' class='btn btn-default' href="{{ url_for('addContext', profileURL = current_user.url) }}">Add Context</a>
+            <a role='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>
                 Edit Contexts <span class="caret"></span>
             </button>
             <ul class='dropdown-menu' role="menu">
