@@ -292,8 +292,11 @@ def register():
             traceback.print_exc()
         print "User committed!"
         public_context = Context(newUser.user_id, "Public")
-        public_context.aspect.append(basic_info)
+        print "Made the context"
         basic_info = Aspect(newUser.user_id, "Basic Info")
+        print "Made the aspect"
+        public_context.aspect.append(basic_info)
+        print "Appended that muthafuckin aspect to the bitchass context"
         print "Their initial context and aspect were made."
         db_session.add(public_context)
         db_session.add(basic_info)
