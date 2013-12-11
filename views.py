@@ -276,13 +276,16 @@ def logout():
 def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
+        print "It validated, therefore the issue is within this logic."
         newUser = User(request.form['name'], request.form['email'], 
                                     request.form['password'], request.form['url'])
+        print "The user was made freely."
         db_session.add(newUser)
         db_session.commit()
         public_context = Context(newUser.user_id, "Public")
         public_context.aspect.append(basic_info)
         basic_info = Aspect(newUser.user_id, "Basic Info")
+        print "Their initial context and aspect were made."
         db_session.add(public_context)
         db_session.add(basic_info)
         db_session.commit()
