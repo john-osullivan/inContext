@@ -1,5 +1,10 @@
 Flask==0.10.1
-Flask-SQLAlchemy==1.0
-Flask-WTF==0.8.4
 Flask-Login==0.2.7
-psycopg2==2.5.1
+-e git+https://github.com/mitsuhiko/flask-sqlalchemy@d4560013c1c51ef035381e35dd42a1628bb212ee#egg=Flask_SQLAlchemy-dev
+Flask-WTF==0.8.4
+Jinja2==2.7.1
+MarkupSafe==0.18
+SQLAlchemy==0.8.4
+WTForms==1.0.5
+Werkzeug==0.9.4
+itsdangerous==0.23
