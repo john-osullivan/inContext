@@ -74,7 +74,7 @@ def addDetail(profileURL):
     form = CreateDetailForm(request.form)
     try:
         print user.aspect
-    except Exception e:
+    except Exception as e:
             print type(e)
             print e.args
             print e
