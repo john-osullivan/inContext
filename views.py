@@ -52,13 +52,11 @@ def getProfile(profileURL):
         aspect_data['rows'] = []
         aspect_details = each.detail
         numRows = int(ceil(len(aspect_details) / 3.0))
-        print numRows
         for i in range(numRows):
             row = []
             for j in range(3):
                 try:
                     row.append(aspect_details[3 * i + j])
-                    print aspect_details[3 * i + j].image[0].url
                 except IndexError:
                     pass
             aspect_data['rows'].append(row)
@@ -90,6 +88,8 @@ def addDetail(profileURL):
         db_session.commit()
         flash("You just added a detail called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
+    elif form.submitted():
+        flash(form.errors)
     else:
         return render_template('forms/create_detail.html', form=form)
 
@@ -108,6 +108,8 @@ def addAspect(profileURL):
         db_session.commit()
         flash("You just created an aspect called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
+    elif form.submitted():
+        flash(form.errors)
     else:
         return render_template('forms/create_aspect.html', form=form)
 
@@ -123,6 +125,8 @@ def addContext(profileURL):
         db_session.commit()
         flash("You just created a context called " + request.form['name'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
+    elif form.submitted():
+        flash(form.errors)
     else:
         return render_template('forms/create_context.html', form=form)
 
@@ -208,8 +212,9 @@ def add_aspect_to_context(profileURL):
         db_session.commit()
         flash("Aspect added!")
         return redirect(url_for('getProfile', profileURL = profileURL))
+    elif form.submitted():
+        flash(form.errors)        
     else:
-        flash(form.errors)
         return render_template('forms/add_aspect_to_context.html', form=form)
 
 @app.route('/user/<profileURL>/remove_aspect_from_context', methods=['GET','POST'])
@@ -227,8 +232,9 @@ def remove_aspect_from_context(profileURL):
         db_session.commit()
         flash("Aspect removed!")
         return redirect(url_for('getProfile', profileURL = profileURL))
-    else:
+    elif form.submitted():
         flash(form.errors)
+    else:
         return render_template('forms/remove_aspect_from_context.html', form=form)
 
 
@@ -245,24 +251,19 @@ def about():
 def login():
     form = LoginForm(request.form)
     if form.is_submitted():
-        flash("The form submitted...")
-        print "submitted form."
+        flash("The form submitted but didn't validate :(")
     if form.validate():
         flash("And it's valid!")
-        print "validated form"
     if form.validate_on_submit():
         user = User.query.filter(User.name == request.form['name']).one()
-        print "queried database to find user"
         if user.password == request.form['password']:
             login_user(user)
-            print "login should happen"
             flash("Logged in successfully.")
             return redirect(url_for('getProfile', profileURL = user.url))
         else:
             flash("Incorrect username or password!")
             return redirect(url_for('getProfile', profileURL = user.url))
     else:
-        flash("Not a valid input.")
         return render_template('forms/login.html', form = form)
 
 @app.route('/logout', methods=['GET'])
@@ -274,13 +275,6 @@ def logout():
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
-    if form.is_submitted():
-        flash("The form submitted...")
-    if form.validate():
-        flash("And it's valid!")
-    else:
-        print form.errors
-        flash("Didn't validate :(")
     if form.validate_on_submit():
         newUser = User(request.form['name'], request.form['email'], 
                                     request.form['password'], request.form['url'])
@@ -295,6 +289,13 @@ def register():
         login_user(newUser)
         flash("It all worked, you're in the system!")
         return redirect(url_for('home'))
+    elif form.is_submitted():
+        flash("It submitted but didn't validate! :(")
+        flash(form.errors)
+        print "It was submitted with these errors:"
+        print form.errors
+    else:
+        print "Shit ain't working!"
     return render_template('forms/register.html', form = form)
 
 @app.route('/forgot')
