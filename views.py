@@ -84,8 +84,8 @@ def addDetail(profileURL):
         newDetail.text = form.text.data
         user.detail.append(newDetail)
         aspect.detail.append(newDetail)
-        db_session.add(newDetail)
-        db_session.commit()
+        db.session.add(newDetail)
+        db.session.commit()
         flash("You just added a detail called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     elif form.submitted():
@@ -104,8 +104,8 @@ def addAspect(profileURL):
             for contextID in request.form['context']:
                 Context.query.get(int(contextID)).aspect.append(newAspect)
         user.aspect.append(newAspect)
-        db_session.add(newAspect)
-        db_session.commit()
+        db.session.add(newAspect)
+        db.session.commit()
         flash("You just created an aspect called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     elif form.submitted():
@@ -121,8 +121,8 @@ def addContext(profileURL):
         print "it's making contexts!"
         newContext = Context(user.user_id, request.form['name'])
         user.context.append(newContext)
-        db_session.add(newContext)
-        db_session.commit()
+        db.session.add(newContext)
+        db.session.commit()
         flash("You just created a context called " + request.form['name'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     elif form.submitted():
@@ -139,8 +139,8 @@ def addConnection(profileURL, methods=["POST", "GET"]):
         perspective_check = Perspective.query.filter(Perspective.user_id == thisUser.user_id, Perspective.context_id == context_id).first()
         if perspective_check == None:
             newPerspective = Perspect(user_id, context_id)
-            db_session.add(newPerspective)
-            db_session.commit()
+            db.session.add(newPerspective)
+            db.session.commit()
         else:
             newPerspective = perspective_check
         return newPerspective
@@ -159,8 +159,8 @@ def addConnection(profileURL, methods=["POST", "GET"]):
         newConnection.users.append(otherUser.user_id)
         newConnection.perspective.append(yourPerspective)
         newConnection.perspective.append(theirPerspective)
-        db_session.add(newConnection)
-        db_session.commit()
+        db.session.add(newConnection)
+        db.session.commit()
         flash("It worked, connection made!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     else:
@@ -174,24 +174,24 @@ METHODS TO REMOVE OBJECTS (still not implemented in forms or html)
 def removeDetail(profileURL):
     user = User.query.filter(User.url == profileURL).one()
     detail = Detail.query.filter(Detail.card_id == int(request.form['detailID']))
-    db_session.delete(detail)
-    db_session.commit()
+    db.session.delete(detail)
+    db.session.commit()
     return redirect(url_for('getProfile', profileURL = profileURL))
 
 @app.route('/user/<profileURL>/removeAspect', methods=['GET','POST'])
 def removeAspect(profileURL):
     user = User.query.filter(User.url == profileURL).one()
     aspect = Aspect.query.filter(Aspect.aspect_id == int(request.form['aspectID']))
-    db_session.delete(aspect)
-    db_session.commit()
+    db.session.delete(aspect)
+    db.session.commit()
     return redirect(url_for('getProfile', profileURL = profileURL))
 
 @app.route('/user/<profileURL>/removeContext', methods=['GET','POST'])
 def removeContext(profileURL):
     user = User.query.filter(User.url == profileURL).one()
     context = Context.query.filter(Context.context_id == int(request.form['contextID']))
-    db_session.delete(context)
-    db_session.commit()
+    db.session.delete(context)
+    db.session.commit()
     return redirect(url_for('getProfile', profileURL = profileURL))
 
 '''
@@ -207,9 +207,9 @@ def add_aspect_to_context(profileURL):
         context = Context.query.get(int(form.context.data))
         aspect = Aspect.query.get(int(form.aspect.data))
         context.aspect.append(aspect)
-        db_session.add(context)
-        db_session.add(aspect)
-        db_session.commit()
+        db.session.add(context)
+        db.session.add(aspect)
+        db.session.commit()
         flash("Aspect added!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     elif form.submitted():
@@ -227,9 +227,9 @@ def remove_aspect_from_context(profileURL):
         context = Context.get(int(form.context.data))
         aspect = Aspect.get(int(form.aspect.data))
         context.aspect.remove(aspect)
-        db_session.add(context)
-        db_session.add(aspect)
-        db_session.commit()
+        db.session.add(context)
+        db.session.add(aspect)
+        db.session.commit()
         flash("Aspect removed!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     elif form.submitted():
@@ -280,15 +280,15 @@ def register():
         newUser = User(request.form['name'], request.form['email'], 
                                     request.form['password'], request.form['url'])
         print "The user was made freely."
-        db_session.add(newUser)
-        db_session.commit()
+        db.session.add(newUser)
+        db.session.commit()
         public_context = Context(newUser.user_id, "Public")
         public_context.aspect.append(basic_info)
         basic_info = Aspect(newUser.user_id, "Basic Info")
         print "Their initial context and aspect were made."
-        db_session.add(public_context)
-        db_session.add(basic_info)
-        db_session.commit()
+        db.session.add(public_context)
+        db.session.add(basic_info)
+        db.session.commit()
         login_user(newUser)
         flash("It all worked, you're in the system!")
         return redirect(url_for('home'))
@@ -310,7 +310,7 @@ def forgot():
 
 @app.errorhandler(500)
 def internal_error(error):
-    #db_session.rollback()
+    #db.session.rollback()
     return render_template('errors/500.html'), 500
 
 @app.errorhandler(404)
