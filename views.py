@@ -100,8 +100,10 @@ def addDetail(profileURL):
         flash("You just added a detail called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     elif form.submitted():
+        print form.errors
         flash(form.errors)
     else:
+        print "Neither submitted or validated"
         return render_template('forms/create_detail.html', form=form)
 
 @app.route('/user/<profileURL>/addAspect', methods=['GET','POST'])
@@ -144,8 +146,10 @@ def addContext(profileURL):
         flash("You just created a context called " + request.form['name'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     elif form.submitted():
+        print "Submitted, with these errors: ", form.errors
         flash(form.errors)
     else:
+        print "Neither submitted or validated"
         return render_template('forms/create_context.html', form=form)
 
 
