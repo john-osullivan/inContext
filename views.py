@@ -72,8 +72,14 @@ METHODS TO ADD NEW OBJECTS
 def addDetail(profileURL):
     user = User.query.filter(User.url == profileURL).one()
     form = CreateDetailForm(request.form)
-    print "Populated form"
+    try:
+        print user.aspect
+    except Exception e:
+            print type(e)
+            print e.args
+            print e
     form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]    
+    print "Populated form"
     if form.validate_on_submit():
         print "form.aspect.data: ",form.aspect.data
         print "Querying Aspect and making Detail"
@@ -122,6 +128,7 @@ def addAspect(profileURL):
         print form.errors
         flash(form.errors)
     else:
+        print "Aspect form neither submitted or validated."
         return render_template('forms/create_aspect.html', form=form)
 
 @app.route('/user/<profileURL>/addContext', methods=['GET','POST'])
