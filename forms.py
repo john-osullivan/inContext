@@ -39,7 +39,7 @@ class CreateDetailForm(BaseForm):
 
 class CreateAspectForm(BaseForm):
     title = TextField('Title', validators = [Required(), Length(min=1, max=30)])
-    context = SelectMultipleField('Contexts')
+    context = SelectMultipleField('Contexts', coerce = int)
 
 class CreateContextForm(BaseForm):
     name = TextField('Name', validators = [Required(), Length(min=1, max=30)])
@@ -53,5 +53,5 @@ class RemoveAspectContextForm(BaseForm):
     context = SelectField('Context', validators = [Required()], coerce = int)
 
 class CreateConnectionForm(BaseForm):
-    yourContext = SelectField("Your Context", validators = [Required()])
-    theirContext = SelectField("Their Context", validators = [Required()])
+    yourContext = SelectField("Your Context", validators = [Required()], coerce = int)
+    theirContext = SelectField("Their Context", validators = [Required()], coerce = int)
