@@ -16,7 +16,9 @@ class RegisterForm(BaseForm):
     confirm = PasswordField('Repeat Password', [Required(message = "Write that thang twice."), EqualTo('password', message='Passwords must match')])
 
     def validate_url(form, field):
+        print "it got to the validation function"
         url_check = User.query.filter(User.url == field.data).first()
+        print "it queried the database in validation"
         if url_check != None:
             print "it's bitching about the URL not being unique!"
             raise ValidationError("URL suffix must be unique!")

@@ -309,8 +309,6 @@ def register():
         flash(form.errors)
         print "It was submitted with these errors:"
         print form.errors
-    else:
-        print "Shit ain't working!"
     return render_template('forms/register.html', form = form)
 
 @app.route('/forgot')
