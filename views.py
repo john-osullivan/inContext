@@ -72,9 +72,11 @@ METHODS TO ADD NEW OBJECTS
 def addDetail(profileURL):
     user = User.query.filter(User.url == profileURL).one()
     form = CreateDetailForm(request.form)
+    print "Populated form"
     form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]    
     if form.validate_on_submit():
         print "form.aspect.data: ",form.aspect.data
+        print "Querying Aspect and making Detail"
         aspect = Aspect.query.filter(Aspect.user_id == user.user_id, Aspect.aspect_id == int(form.aspect.data)).one()
         newDetail = Detail(aspect.aspect_id, user.user_id, form.title.data)
         if form.image.data != '':
@@ -82,10 +84,13 @@ def addDetail(profileURL):
             newImage = Image(imageURL)
             newDetail.image.append(newImage)
         newDetail.text = form.text.data
+        print "About to append everything"
         user.detail.append(newDetail)
         aspect.detail.append(newDetail)
         db_session.add(newDetail)
+        print "Everything added"
         db_session.commit()
+        print "Everything committed"
         flash("You just added a detail called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     elif form.submitted():
@@ -97,18 +102,24 @@ def addDetail(profileURL):
 def addAspect(profileURL):
     user = User.query.filter(User.url == profileURL).one()
     form = CreateAspectForm(request.form)
+    print "Pre-population of choices..."
     form.context.choices = [(context.context_id, context.name) for context in user.context]
+    print "We populated everything"
     if form.validate_on_submit():
+        print "It validated"
         newAspect = Aspect(user.user_id, form.title.data)
         if form.context.data != []:
             for contextID in request.form['context']:
+                print "Queried contexts."
                 Context.query.get(int(contextID)).aspect.append(newAspect)
         user.aspect.append(newAspect)
         db_session.add(newAspect)
         db_session.commit()
+        print "Added aspect to session, committed it."
         flash("You just created an aspect called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
     elif form.submitted():
+        print form.errors
         flash(form.errors)
     else:
         return render_template('forms/create_aspect.html', form=form)
@@ -279,9 +290,9 @@ def register():
         print "It validated, therefore the issue is within this logic."
         newUser = User(request.form['name'], 
                                     request.form['password'], request.form['url'])
-        print "The user was made freely."
+        # print "The user was made freely."
         db_session.add(newUser)
-        print "Added to session"
+        # print "Added to session"
         try:
             db_session.commit()
         except Exception as inst:
@@ -290,14 +301,14 @@ def register():
             print inst.args
             print inst
             traceback.print_exc()
-        print "User committed!"
+        # print "User committed!"
         public_context = Context(newUser.user_id, "Public")
-        print "Made the context"
+        # print "Made the context"
         basic_info = Aspect(newUser.user_id, "Basic Info")
-        print "Made the aspect"
+        # print "Made the aspect"
         public_context.aspect.append(basic_info)
-        print "Appended that muthafuckin aspect to the bitchass context"
-        print "Their initial context and aspect were made."
+        # print "Appended that muthafuckin aspect to the bitchass context"
+        # print "Their initial context and aspect were made."
         db_session.add(public_context)
         db_session.add(basic_info)
         db_session.commit()
