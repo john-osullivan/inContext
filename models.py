@@ -3,6 +3,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Table
 from flask.ext.sqlalchemy import sqlalchemy
+import os
 
 engine = create_engine(os.environ["DATABASE_URL"], echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
