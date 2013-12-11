@@ -277,7 +277,7 @@ def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
         print "It validated, therefore the issue is within this logic."
-        newUser = User(request.form['name'], request.form['email'], 
+        newUser = User(request.form['name'], 
                                     request.form['password'], request.form['url'])
         print "The user was made freely."
         db_session.add(newUser)
@@ -285,9 +285,11 @@ def register():
         try:
             db_session.commit()
         except Exception as inst:
+            import traceback
             print type(inst)
             print inst.args
             print inst
+            traceback.print_exc()
         print "User committed!"
         public_context = Context(newUser.user_id, "Public")
         public_context.aspect.append(basic_info)

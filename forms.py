@@ -11,7 +11,6 @@ class BaseForm(Form):
 
 class RegisterForm(BaseForm):
     name = TextField('Username', validators = [Required(message = "Need username."), Length(min=6, max=25)])
-    email   = TextField('Email', validators = [Required(message = "Need email."), Length(min=6, max=40), Email(message = "Not a valid email address.")])
     password    = PasswordField('Password', validators = [Required(message = "Need password."), Length(min=6, max=40)])
     url = TextField('URL', validators = [Required(message = "Specify a URL for your page to live at!"), Length(min=3, max=25)])
     confirm = PasswordField('Repeat Password', [Required(message = "Write that thang twice."), EqualTo('password', message='Passwords must match')])

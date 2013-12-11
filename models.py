@@ -22,7 +22,6 @@ class User(Base):
 
     user_id =  Column( Integer, primary_key=True)
     name =  Column( String(120), unique=True)
-    email =  Column( String(120), unique=True)
     url =  Column( String(30), unique=True)
     password =  Column( String(30))
     connection =  relationship("Connection", secondary = 'users_to_connections', backref='users')
@@ -31,9 +30,8 @@ class User(Base):
     aspect =  relationship("Aspect")
     detail =  relationship("Detail")
 
-    def __init__(self, name, email, password, url):
+    def __init__(self, name, password, url):
         self.name = name
-        self.email = email
         self.password = password
         self.url = url
 
