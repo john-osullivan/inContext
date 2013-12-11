@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Table
 from flask.ext.sqlalchemy import sqlalchemy
 
-engine = create_engine('sqlite:///database.db', echo=True)
+engine = create_engine(os.environ["DATABASE_URL"], echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
