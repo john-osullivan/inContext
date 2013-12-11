@@ -80,6 +80,12 @@ def addDetail(profileURL):
             print e
     form.aspect.choices = [(aspect.aspect_id, aspect.title) for aspect in user.aspect]    
     print "Populated form"
+    try:
+        print "Did form validate: ", form.validate_on_submit()
+    except Exception as e:
+        print type(e)
+        print e.args
+        print e
     if form.validate_on_submit():
         print "form.aspect.data: ",form.aspect.data
         print "Querying Aspect and making Detail"
@@ -99,7 +105,7 @@ def addDetail(profileURL):
         print "Everything committed"
         flash("You just added a detail called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
-    elif form.submitted():
+    elif form.is_submitted():
         print form.errors
         flash(form.errors)
     else:
@@ -126,7 +132,7 @@ def addAspect(profileURL):
         print "Added aspect to session, committed it."
         flash("You just created an aspect called " + request.form['title'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
-    elif form.submitted():
+    elif form.is_submitted():
         print form.errors
         flash(form.errors)
     else:
@@ -145,7 +151,7 @@ def addContext(profileURL):
         db_session.commit()
         flash("You just created a context called " + request.form['name'] + "!")
         return redirect(url_for('getProfile', profileURL = profileURL))
-    elif form.submitted():
+    elif form.is_submitted():
         print "Submitted, with these errors: ", form.errors
         flash(form.errors)
     else:
