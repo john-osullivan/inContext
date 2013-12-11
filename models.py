@@ -5,7 +5,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Table
 from flask.ext.sqlalchemy import sqlalchemy
 import os
 
-engine = create_engine(os.environ["DATABASE_URL"], echo=True)
+engine = create_engine(os.environ["DATABASE_URL"], echo=False)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))

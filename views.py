@@ -281,7 +281,14 @@ def register():
                                     request.form['password'], request.form['url'])
         print "The user was made freely."
         db_session.add(newUser)
-        db_session.commit()
+        print "Added to session"
+        try:
+            db_session.commit()
+        except Exception as inst:
+            print type(inst)
+            print inst.args
+            print inst
+        print "User committed!"
         public_context = Context(newUser.user_id, "Public")
         public_context.aspect.append(basic_info)
         basic_info = Aspect(newUser.user_id, "Basic Info")
